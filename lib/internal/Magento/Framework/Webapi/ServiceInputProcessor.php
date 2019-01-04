@@ -226,6 +226,33 @@ class ServiceInputProcessor implements ServicePayloadConverterInterface
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
             // This use case is for REST only. SOAP request data is already camel cased
             $camelCaseProperty = SimpleDataObjectConverter::snakeCaseToUpperCamelCase($propertyName);
+
+            if ($camelCaseProperty == "Uuid"){
+                $object->setData("uuid", $value);
+
+                // Interfaces have to be based on AbstractExtensibleModel OR we will not transfer UUID to next requests
+
+                /**
+                 * We are saving here data to
+                 * magento_bulk
+                 * magento_operation
+                 *
+                 * OR we will create own table for that
+                 * Data:
+                 * - UUID
+                 * - Serialized Data
+                 * - Result Serialised Data
+                 * - Status
+                 * - Error Code
+                 * - Result message
+                 *
+                 * Questions:
+                 * - Do we need BULK, or each entry with have own UUID?
+                 */
+
+                continue;
+            }
+
             $methodName = $this->getNameFinder()->getGetterMethodName($class, $camelCaseProperty);
             $methodReflection = $class->getMethod($methodName);
             if ($methodReflection->isPublic()) {
