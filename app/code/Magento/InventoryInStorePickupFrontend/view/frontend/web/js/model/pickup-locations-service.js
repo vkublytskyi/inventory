@@ -167,6 +167,7 @@ define([
                     address.country_id,
                     address.region_id
                 ),
+                source_code: address.source_code,
             };
         },
         /**
