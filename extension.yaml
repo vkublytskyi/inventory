@@ -1,0 +1,6 @@
+targets:
+  - editions:
+      - open-source
+      - commerce
+    versions:
+      - 2.3.*
